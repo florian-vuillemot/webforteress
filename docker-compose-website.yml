@@ -14,7 +14,7 @@ services:
      networks:
        website_db:
          aliases:
-           - webfortress.db
+           - ${MYSQL_DNS}
 
    wordpress:
      depends_on:
