@@ -1,0 +1,55 @@
+version: '3.1'
+
+services:
+   wordpress_db:
+     image: mysql:${MYSQL_VERSION}
+     volumes:
+       - ${MYSQL_VOLUME}:/var/lib/mysql
+     restart: always
+     environment:
+       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+       MYSQL_DATABASE: ${MYSQL_DATABASE}
+       MYSQL_USER: ${MYSQL_USER}
+       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+     networks:
+       website_db:
+         aliases:
+           - webfortress.db
+
+   wordpress:
+     depends_on:
+       - wordpress_db
+     image: wordpress:latest
+     ports:
+       - "8000:80"
+     restart: always
+     environment:
+       WORDPRESS_DB_HOST: wordpress_db:3306
+       WORDPRESS_DB_USER: ${MYSQL_USER}
+       WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
+       WORDPRESS_DB_NAME: ${MYSQL_DATABASE}
+     networks:
+       website_db:
+       website_rp:
+         aliases:
+           - ${WEBSITE_DNS}
+
+   reverse_proxy:
+     image: nginx
+     ports:
+       - "443:443"
+     volumes:
+       - ${RP_VOLUME}:/etc/nginx/conf.d
+     depends_on:
+       - wordpress
+     networks:
+       - website_rp
+
+volumes:
+    db_data: {}
+
+networks:
+  website_db:
+    driver: bridge
+  website_rp:
+    driver: bridge
