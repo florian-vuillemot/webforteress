@@ -1,0 +1,13 @@
+version: '3.1'
+
+services:
+  monitoring:
+    container_name: monitoring
+    build:
+      context: .
+      dockerfile: Dockerfile-monitoring
+    image: monitoring
+    ports:
+    - "9090:9090"
+    volumes:
+    - "/prometheus-data:/prometheus-data"
