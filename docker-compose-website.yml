@@ -33,6 +33,9 @@ services:
        website_rp:
          aliases:
            - ${WEBSITE_DNS}
+       website_monitoring:
+         aliases:
+           - ${WEBSITE_DNS}
 
    reverse_proxy:
      image: nginx
@@ -52,4 +55,6 @@ networks:
   website_db:
     driver: bridge
   website_rp:
+    driver: bridge
+  website_monitoring:
     driver: bridge
