@@ -37,13 +37,13 @@ services:
          aliases:
            - ${WEBSITE_DNS}
 
-   website_monitoring:
+   website_db_monitoring:
      depends_on:
        - wordpress
      build:
        context: .
-       dockerfile: Dockerfile-website-monitor
-     image: website_monitoring
+       dockerfile: Dockerfile-wordpress-db-monitor
+     image: website_db_monitoring
      environment:
        DB_DNS: ${MYSQL_DNS}
        WORDPRESS_DB_USER: ${MYSQL_USER}
