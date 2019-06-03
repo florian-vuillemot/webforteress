@@ -12,6 +12,9 @@ services:
        MYSQL_USER: ${MYSQL_USER}
        MYSQL_PASSWORD: ${MYSQL_PASSWORD}
      networks:
+       website_internal_monitoring:
+         aliases:
+           - ${MYSQL_DNS}
        website_db:
          aliases:
            - ${MYSQL_DNS}
@@ -24,7 +27,7 @@ services:
        - "8000:80"
      restart: always
      environment:
-       WORDPRESS_DB_HOST: wordpress_db:3306
+       WORDPRESS_DB_HOST: ${MYSQL_DNS}:3306
        WORDPRESS_DB_USER: ${MYSQL_USER}
        WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
        WORDPRESS_DB_NAME: ${MYSQL_DATABASE}
@@ -33,6 +36,21 @@ services:
        website_rp:
          aliases:
            - ${WEBSITE_DNS}
+
+   website_monitoring:
+     depends_on:
+       - wordpress
+     build:
+       context: .
+       dockerfile: Dockerfile-website-monitor
+     image: website_monitoring
+     environment:
+       DB_DNS: ${MYSQL_DNS}
+       WORDPRESS_DB_USER: ${MYSQL_USER}
+       WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
+       WORDPRESS_DB_NAME: ${MYSQL_DATABASE}
+     networks:
+       website_internal_monitoring:
        website_monitoring:
          aliases:
            - ${WEBSITE_DNS}
@@ -57,4 +75,6 @@ networks:
   website_rp:
     driver: bridge
   website_monitoring:
+    driver: bridge
+  website_internal_monitoring:
     driver: bridge

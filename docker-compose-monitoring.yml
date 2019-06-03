@@ -12,4 +12,4 @@ services:
     volumes:
     - "/prometheus-data:/prometheus-data"
     networks:
-      - website_monitoring
+      website_monitoring:
