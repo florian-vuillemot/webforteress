@@ -7,9 +7,25 @@ services:
       context: .
       dockerfile: Dockerfile-monitoring
     image: monitoring
-    ports:
-    - "9090:9090"
     volumes:
     - "/prometheus-data:/prometheus-data"
     networks:
       website_monitoring:
+      website_rp_monitoring:
+         aliases:
+           - ${WEBSITE_DNS}
+
+  reverse_proxy_monitoring:
+    image: nginx
+    ports:
+      - "4443:443"
+    volumes:
+      - ${RP_MONITORING_VOLUME}:/etc/nginx/conf.d
+    depends_on:
+      - website_db_monitoring
+    networks:
+      - website_rp_monitoring
+
+networks:
+  website_rp_monitoring:
+    driver: bridge
