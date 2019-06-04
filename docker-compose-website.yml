@@ -2,7 +2,10 @@ version: '3.1'
 
 services:
    wordpress_db:
-     image: mysql:${MYSQL_VERSION}
+     build:
+       context: .
+       dockerfile: Dockerfile-mysql
+     image: wordpress_db
      volumes:
        - ${MYSQL_VOLUME}:/var/lib/mysql
      restart: always
@@ -23,6 +26,8 @@ services:
      depends_on:
        - wordpress_db
      image: wordpress:latest
+     volumes:
+      - ./wp-content:/var/www/html/wp-content:rw
      ports:
        - "8000:80"
      restart: always

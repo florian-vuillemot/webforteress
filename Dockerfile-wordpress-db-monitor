@@ -1,6 +1,6 @@
 FROM golang:latest
 
-ENV DB_DNS 42
+ARG DB_DNS
 
 RUN go get github.com/kotsis/wordpress_exporter
 

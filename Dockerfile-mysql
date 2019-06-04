@@ -1,0 +1,5 @@
+FROM mysql:5.7
+
+ADD mysql/my.cnf /etc/mysql/my.cnf
+ADD mysql/cert.pem /etc/mysql-ssl/cert.pem
+ADD mysql/key.pem /etc/mysql-ssl/key.pem
