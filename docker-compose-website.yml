@@ -22,6 +22,21 @@ services:
          aliases:
            - ${MYSQL_DNS}
 
+   db_backup:
+     build:
+       context: .
+       dockerfile: Dockerfile-db-cronjob
+       args:
+         PASSWORD: ${MYSQL_PASSWORD}
+         DBNAME: ${MYSQL_DATABASE}
+         USERNAME: ${MYSQL_USER}
+         DB_URL: ${MYSQL_DNS}
+     image: db_backup
+     volumes:
+       - ./backups:/home
+     networks:
+       - website_db
+
    wordpress:
      depends_on:
        - wordpress_db
