@@ -1,42 +1,6 @@
 version: '3.1'
 
 services:
-   wordpress_db:
-     build:
-       context: .
-       dockerfile: Dockerfile-mysql
-     image: wordpress_db
-     volumes:
-       - ${MYSQL_VOLUME}:/var/lib/mysql
-     restart: always
-     environment:
-       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-       MYSQL_DATABASE: ${MYSQL_DATABASE}
-       MYSQL_USER: ${MYSQL_USER}
-       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-     networks:
-       website_internal_monitoring:
-         aliases:
-           - ${MYSQL_DNS}
-       website_db:
-         aliases:
-           - ${MYSQL_DNS}
-
-   db_backup:
-     build:
-       context: .
-       dockerfile: Dockerfile-db-cronjob
-       args:
-         PASSWORD: ${MYSQL_PASSWORD}
-         DBNAME: ${MYSQL_DATABASE}
-         USERNAME: ${MYSQL_USER}
-         DB_URL: ${MYSQL_DNS}
-     image: db_backup
-     volumes:
-       - ./backups:/home
-     networks:
-       - website_db
-
    wordpress:
      depends_on:
        - wordpress_db
@@ -57,24 +21,6 @@ services:
          aliases:
            - ${WEBSITE_DNS}
 
-   website_db_monitoring:
-     depends_on:
-       - wordpress
-     build:
-       context: .
-       dockerfile: Dockerfile-wordpress-db-monitor
-     image: website_db_monitoring
-     environment:
-       DB_DNS: ${MYSQL_DNS}
-       WORDPRESS_DB_USER: ${MYSQL_USER}
-       WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
-       WORDPRESS_DB_NAME: ${MYSQL_DATABASE}
-     networks:
-       website_internal_monitoring:
-       website_monitoring:
-         aliases:
-           - ${WEBSITE_DNS}
-
    reverse_proxy:
      image: nginx
      ports:
@@ -86,15 +32,6 @@ services:
      networks:
        - website_rp
 
-volumes:
-    db_data: {}
-
 networks:
-  website_db:
-    driver: bridge
   website_rp:
-    driver: bridge
-  website_monitoring:
-    driver: bridge
-  website_internal_monitoring:
     driver: bridge
