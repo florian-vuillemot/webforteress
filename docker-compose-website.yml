@@ -6,15 +6,9 @@ services:
        - wordpress_db
      image: wordpress:latest
      volumes:
-      - ./wp-content:/var/www/html/wp-content:rw
-     ports:
-       - "8000:80"
+       - ./wp-content:/var/www/html/wp-content
+       - ./html/wp-config.php:/var/www/html/wp-config.php
      restart: always
-     environment:
-       WORDPRESS_DB_HOST: ${MYSQL_DNS}:3306
-       WORDPRESS_DB_USER: ${MYSQL_USER}
-       WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
-       WORDPRESS_DB_NAME: ${MYSQL_DATABASE}
      networks:
        website_db:
        website_rp:
