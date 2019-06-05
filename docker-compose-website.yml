@@ -7,7 +7,7 @@ services:
      image: wordpress:latest
      volumes:
        - ./wp-content:/var/www/html/wp-content
-       - ./html/wp-config.php:/var/www/html/wp-config.php
+       - ./website/wp-config.php:/var/www/html/wp-config.php
      restart: always
      networks:
        website_db:

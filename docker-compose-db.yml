@@ -39,6 +39,23 @@ services:
      networks:
        - website_db
 
+   db_monitoring:
+     depends_on:
+       - wordpress_db
+     build:
+       context: .
+       dockerfile: Dockerfile-mysql-monitoring
+     environment:
+       PASSWORD: somewordpress
+       DBNAME: ${MYSQL_DATABASE}
+       USERNAME: root
+       DB_URL: ${MYSQL_DNS}
+       EXPORTER_URL: db_monitoring
+       DATA_SOURCE_NAME: prom_exporter:wordpress@${MYSQL_DNS}:3306
+     image: db_monitoring
+     networks:
+       - website_db
+
    website_db_monitoring:
      depends_on:
        - wordpress_db

@@ -1,0 +1,7 @@
+FROM ubuntu:latest
+
+ADD ./mysql_monitoring/node_exporter /home/node_exporter
+
+WORKDIR /home
+
+ENTRYPOINT ./node_exporter
