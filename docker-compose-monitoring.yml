@@ -8,7 +8,7 @@ services:
       dockerfile: Dockerfile-monitoring
     image: monitoring
     volumes:
-    - "/prometheus-data:/prometheus-data"
+    - /prometheus-data:/prometheus-data
     networks:
       website_rp_monitoring:
          aliases:
@@ -19,7 +19,7 @@ services:
       - monitoring
     image: nginx
     ports:
-      - "4443:443"
+      - 4443:443
     volumes:
       - ${RP_MONITORING_VOLUME}:/etc/nginx/conf.d
     networks:
