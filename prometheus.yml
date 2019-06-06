@@ -14,15 +14,7 @@ scrape_configs:
     scrape_interval: 5s
 
     static_configs:
-      - targets: ['localhost:9090']
+      - targets: ['wordpress_monitoring:9113']
         labels:
           group: 'production'
 
-  - job_name: 'website'
-
-    scrape_interval: 5s
-
-    static_configs:
-      - targets: ['db_monitoring:9100']
-        labels:
-          group: 'production'

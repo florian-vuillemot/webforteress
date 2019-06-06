@@ -15,9 +15,6 @@ services:
        MYSQL_USER: ${MYSQL_USER}
        MYSQL_PASSWORD: ${MYSQL_PASSWORD}
      networks:
-       website_internal_monitoring:
-         aliases:
-           - ${MYSQL_DNS}
        website_db:
          aliases:
            - ${MYSQL_DNS}
@@ -39,33 +36,9 @@ services:
      networks:
        - website_db
 
-   db_monitoring:
-     depends_on:
-       - wordpress_db
-     build:
-       context: .
-       dockerfile: Dockerfile-mysql-monitoring
-     environment:
-       PASSWORD: somewordpress
-       DBNAME: ${MYSQL_DATABASE}
-       USERNAME: root
-       DB_URL: ${MYSQL_DNS}
-       EXPORTER_URL: db_monitoring
-       DATA_SOURCE_NAME: prom_exporter:wordpress@${MYSQL_DNS}:3306
-     image: db_monitoring
-     networks:
-       website_db:
-       website_monitoring:
-         aliases:
-           - ${MYSQL_DNS}
-
 volumes:
   db_data: {}
 
 networks:
   website_db:
-    driver: bridge
-  website_internal_monitoring:
-    driver: bridge
-  website_monitoring:
     driver: bridge
