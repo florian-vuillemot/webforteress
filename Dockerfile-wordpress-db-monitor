@@ -1,9 +1,0 @@
-FROM golang:latest
-
-ARG DB_DNS
-
-RUN go get github.com/kotsis/wordpress_exporter
-
-WORKDIR github.com/kotsis/wordpress_exporter
-
-ENTRYPOINT wordpress_exporter -host=$DB_DNS -port=3306 -user=$WORDPRESS_DB_USER -db=$WORDPRESS_DB_NAME -pass=$WORDPRESS_DB_PASSWORD
