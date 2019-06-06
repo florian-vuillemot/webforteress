@@ -4,7 +4,7 @@ services:
   monitoring:
     container_name: monitoring
     build:
-      context: .
+      context: ./monitoring
       dockerfile: Dockerfile-monitoring
     image: monitoring
     volumes:
