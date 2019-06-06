@@ -23,8 +23,8 @@ services:
      depends_on:
        - wordpress_db
      build:
-       context: .
-       dockerfile: Dockerfile-db-cronjob
+       context: ./cronjob
+       dockerfile: ./Dockerfile-db-cronjob
        args:
          PASSWORD: ${MYSQL_PASSWORD}
          DBNAME: ${MYSQL_DATABASE}
@@ -32,7 +32,7 @@ services:
          DB_URL: ${MYSQL_DNS}
      image: db_backup
      volumes:
-       - ./backups:/home
+       - /tmp/backups:/home
      networks:
        - website_db
 
