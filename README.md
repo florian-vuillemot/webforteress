@@ -38,7 +38,7 @@ In the real word, we have to found a solution. Maybe thanks to docker monitoring
 
 ## Reverse Proxy
 
-There are a reverse proxy in front of websites for provide HTTPS and another reverse proxy in front of the monitoring system for provide HTTPS + IP whitelist.
+There are a reverse proxy in front of websites for provide HTTPS and another reverse proxy in front of the monitoring system for provide HTTPS + IP whitelist (preferred a VPN connection).
 **You have to change IP allow in `monitoring/proxy_ssl.conf`**.
 
 ## Getting started
