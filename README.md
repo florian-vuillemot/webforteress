@@ -48,6 +48,10 @@ There are a reverse proxy in front of websites for provide HTTPS and another rev
 * Change in `docker-compose-*` volumes paths.
 * Copy/path `.env.example` to `.env` and provide real value. Don't forget to spread change in config files. => Yes we have to improve this.
 
+## Missing
+
+Database encryption => Use TDE if you have a Mysql Entreprise license
+
 ## Other way
 
 We also make a POC with Azure.
