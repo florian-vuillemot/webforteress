@@ -23,6 +23,6 @@ scrape_configs:
     scrape_interval: 5s
 
     static_configs:
-      - targets: ['webfortress.bastion:8888']
+      - targets: ['db_monitoring:9100']
         labels:
           group: 'production'

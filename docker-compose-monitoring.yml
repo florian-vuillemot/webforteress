@@ -16,13 +16,13 @@ services:
            - ${WEBSITE_DNS}
 
   reverse_proxy_monitoring:
+    depends_on:
+      - db_monitoring
     image: nginx
     ports:
       - "4443:443"
     volumes:
       - ${RP_MONITORING_VOLUME}:/etc/nginx/conf.d
-    depends_on:
-      - website_db_monitoring
     networks:
       - website_rp_monitoring
 

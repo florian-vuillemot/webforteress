@@ -54,25 +54,10 @@ services:
        DATA_SOURCE_NAME: prom_exporter:wordpress@${MYSQL_DNS}:3306
      image: db_monitoring
      networks:
-       - website_db
-
-   website_db_monitoring:
-     depends_on:
-       - wordpress_db
-     build:
-       context: .
-       dockerfile: Dockerfile-wordpress-db-monitor
-     image: website_db_monitoring
-     environment:
-       DB_DNS: ${MYSQL_DNS}
-       WORDPRESS_DB_USER: ${MYSQL_USER}
-       WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
-       WORDPRESS_DB_NAME: ${MYSQL_DATABASE}
-     networks:
-       website_internal_monitoring:
+       website_db:
        website_monitoring:
          aliases:
-           - ${WEBSITE_DNS}
+           - ${MYSQL_DNS}
 
 volumes:
   db_data: {}
